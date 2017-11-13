@@ -1,22 +1,22 @@
-const readline = require('readline');
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-
-rl.question('What do you think of Node.js? ', (answer) => {
-  // TODO: Log the answer in a database
-  console.log(`Thank you for your valuable feedback: ${answer}`);
-
-  rl.close();
-});
+// const readline = require('readline');
+//
+// const rl = readline.createInterface({
+//   input: process.stdin,
+//   output: process.stdout
+// });
+//
+// rl.question('What do you think of Node.js? ', (answer) => {
+//   // TODO: Log the answer in a database
+//   console.log(`Thank you for your valuable feedback: ${answer}`);
+//
+//   rl.close();
+// });
 
 
 class Game {
   constructor() {
-    var player1 = new Player();
-    var player2 = new Player();
+    var player1 = new Player('player1', 'O');
+    var player2 = new Player('player2', 'X');
     this.board = new Board();
     this.board.display();
   }
@@ -32,18 +32,21 @@ class Game {
 
 class Board {
   constructor() {
-    this.board = [[' ', '|', ' ', '|', ' '],
-                  ['-', ' ', '-', ' ', '-'],
-                  [' ', '|', ' ', '|', ' '],
-                  ['-', ' ', '-', ' ', '-'],
-                  [' ', '|', ' ', '|', ' ']];
+    this.board = [[' ', ' ', ' '],
+                  [' ', ' ', ' '],
+                  [' ', ' ', ' ']];
   }
   display() {
-    var result = this.board.reduce((output, line) => {
-      var render = line.join('');
-      return output + render + '\n';
-    }, '');
+    var result = this.board.map(line => line.join('|'))
+                           .join('\n- - -\n');
     console.log(result);
+  }
+  place(move, token) {
+    if (this.board[move[0]][move[1]] === ' ') {
+      this.board[move[0]][move[1]] = token;
+    } else {
+      console.log('INVALID MOVE!');
+    }
   }
   evaluate() {
     var positions = [0, 2, 4];
@@ -57,11 +60,12 @@ class Board {
 }
 
 class Player {
-  constructor(name) {
+  constructor(name, token) {
     this.name = name;
+    this.token = token;
   }
   play(move, board) {
-    // place move on board
+    board.place(move, token);
   }
 }
 
