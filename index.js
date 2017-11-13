@@ -1,16 +1,9 @@
-// const readline = require('readline');
-//
-// const rl = readline.createInterface({
-//   input: process.stdin,
-//   output: process.stdout
-// });
-//
-// rl.question('What do you think of Node.js? ', (answer) => {
-//   // TODO: Log the answer in a database
-//   console.log(`Thank you for your valuable feedback: ${answer}`);
-//
-//   rl.close();
-// });
+const readline = require('readline');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 
 
 class Game {
@@ -18,11 +11,18 @@ class Game {
     var player1 = new Player('player1', 'O');
     var player2 = new Player('player2', 'X');
     this.board = new Board();
-    this.board.display();
+  }
+  promptMove(player) {
+    rl.question(`Your turn ${player}!`, (move) => {
+      player.play(move, this.board);
+      console.log(`${player}: placed ${player.token} at ${move}`);
+      rl.close();
+    });
   }
   startRound() {
-    // player1 move
-    // player2 move
+    this.board.display();
+    promptMove('player1');
+    promptMove('player2');
     // evaluate Board
       // if board win, end game
       // else if board full, end Game
@@ -49,13 +49,29 @@ class Board {
     }
   }
   evaluate() {
-    var positions = [0, 2, 4];
-    positions.forEach(row => {
+    var checkHorizontal = this.board.reduce(row => {
       var counter = 0;
-      positions.forEach(col => {
-        this.board[row][col]
+      row.forEach(col => {
+
       })
-    })
+
+    }, false);
+
+    var checkVertical = function() {
+      for (var i = 0; i < this.board.length; i++) {
+        var counter = 0;
+        for (var j = 0; j < this.board.length; j++) {
+
+        }
+        this.board[i]
+      }
+    }
+
+    var checkDiagonol = function() {
+
+    }
+
+
   }
 }
 
